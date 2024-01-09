@@ -1,113 +1,144 @@
-import Image from 'next/image'
+"use client";
+
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
 
 export default function Home() {
+  const [outros, setOutros] = useState(false);
+
+  const { register, handleSubmit } = useForm();
+
+  const selectOptions = [
+    { value: "Clínica Médica", label: "Clínica Médica" },
+    { value: "Clínica Odontolóigica", label: "Clínica Odontolóigica" },
+    { value: "Saúde e bem estar", label: "Saúde e bem estar" },
+    { value: "E-commerce", label: "E-commerce" },
+    { value: "B2B (Atacado)", label: "B2B (Atacado)" },
+    { value: "Infoproduto", label: "Infoproduto" },
+    { value: "Restaurante", label: "Restaurante" },
+    { value: "Loja de roupas", label: "Loja de roupas" },
+    {
+      value: "Escritório de contabilidade",
+      label: "Escritório de contabilidade",
+    },
+    {
+      value: "Outros",
+      label: "Outros",
+    },
+  ];
+
+  const handleNichoValue = (value) => {
+    value == "Outros" ? setOutros(true) : setOutros(false);
+  };
+
+  const onSubmit = (data) => {
+    data.niche == "Outros"
+      ? axios.post("http://localhost:4555", {
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+          niche: data.outros,
+          meet: data.meet,
+          sendEmail: data.checkbox,
+        })
+      : axios.post("http://localhost:4555", {
+          name: data.name,
+          phone: data.phone,
+          email: data.email,
+          niche: data.niche,
+          meet: data.meet,
+          sendEmail: data.checkbox,
+        });
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.js</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+    <main className="flex items-center justify-center h-screen">
+      <div className="bg-[#151717] w-[480px] max-h-min pb-4 px-8">
+        <div className="flex flex-col items-center">
+          <img className=" w-[420px]" src={"/name-logo.png"} />
+          <div className="flex flex-col">
+            <h1 className="text-white mt-3 font-bold text-center text-xl">
+              AGRADECEMOS O SEU CONTATO!
+            </h1>
+            <span className="text-yellow-300 text-center mt-3 text-lg">
+              Por favor, comece respondendo as perguntas abaixo.
+            </span>
+            <span className="text-white text-center mt-3 text-lg">
+              Quando enviar a mensagem, você será direcionado para responder um
+              BRIEFING sobre o seu projeto digital.
+            </span>
+          </div>
+        </div>
+        <div className="text-white mt-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col">
+            <label>Nome*</label>
+            <input
+              {...register("name", { required: true })}
+              placeholder="Digite seu nome "
+              className="px-2 h-8 rounded text-black"
             />
-          </a>
+            <label className="mt-4">Telefone*</label>
+            <input
+              {...register("phone", { required: true })}
+              placeholder="ex: (18) 99999-9999"
+              className="px-2 h-8 rounded text-black"
+            />
+            <label className="mt-4">E-mail*</label>
+            <input
+              {...register("email", { required: true })}
+              placeholder="Digite seu E-mail"
+              className="px-2 h-8 rounded text-black"
+            />
+            <label className="mt-4">Nicho de atuação:*</label>
+            <select
+              {...register("niche", { required: true })}
+              className="rounded h-8 px-2 text-black"
+              onChange={(e) => handleNichoValue(e.target.value)}
+            >
+              {selectOptions.map((item, index) => {
+                return (
+                  <option key={index} value={item.value}>
+                    {item.label}
+                  </option>
+                );
+              })}
+            </select>
+            <input
+              {...register("outros", { required: outros ? true : false })}
+              className={` ${
+                outros ? "" : "hidden"
+              } mt-4 rounded px-2 h-8 text-black`}
+              placeholder="Digite aqui seu nicho"
+            />
+            <label className="mt-4">Como conheceu a Trillion?*</label>
+            <select
+              {...register("meet", { required: true })}
+              className="rounded h-8 px-2 text-black"
+            >
+              <option value="Indicacao">Indicação</option>
+              <option value="Redes Sociais">Redes Sociais</option>
+            </select>
+            <div className="mt-2 flex gap-2 ">
+              <input type="checkbox" {...register("checkbox")} />
+              <label>Eu concordo em receber e-mails da Trillion</label>
+            </div>
+            <div className="mt-4 text-white flex flex-col items-center">
+              <p>
+                A Trillion está comprometida a proteger e respeitar sua
+                privacidade, utilizaremos seus dados apenas para fins de
+                marketing. Você pode alterar suas preferências a qualquer
+                momento.
+              </p>
+              <input
+                type="submit"
+                value="Enviar mensagem"
+                className="bg-yellow-400 font-bold h-16 w-[90%] text-xl rounded mt-6 hover:bg-yellow-300 "
+              />
+            </div>
+          </form>
         </div>
       </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800 hover:dark:bg-opacity-30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
     </main>
-  )
+  );
 }
