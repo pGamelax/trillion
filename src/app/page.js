@@ -35,7 +35,6 @@ export default function Home() {
   const apiURL = process.env.API_BACKEND
   
   const onSubmit = (data) => {
-    console.log(process.env.API_BACKEND)
     data.niche == "Outros"
       ? axios.post(`${apiURL}`, {
           name: data.name,
