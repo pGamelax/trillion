@@ -53,10 +53,11 @@ export default function Home() {
   };
 
   return (
-    <main className="flex items-center justify-center h-screen">
-      <div className="bg-[#151717] w-[480px] max-h-min pb-4 px-8">
+    <main className="">
+      <div className="flex items-center justify-center sm:h-screen">
+      <div className="bg-[#151717] w-[480px] h-max pb-4 px-8">
         <div className="flex flex-col items-center">
-          <img className=" w-[420px]" src={"/name-logo.png"} />
+          <img className=" w-[480px] object-contain" src={"/name-logo.png"} />
           <div className="flex flex-col">
             <h1 className="text-white mt-3 font-bold text-center text-xl">
               AGRADECEMOS O SEU CONTATO!
@@ -138,6 +139,7 @@ export default function Home() {
             </div>
           </form>
         </div>
+      </div>
       </div>
     </main>
   );
