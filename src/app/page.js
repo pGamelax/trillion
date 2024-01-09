@@ -55,9 +55,9 @@ export default function Home() {
   return (
     <main className="">
       <div className="flex items-center justify-center sm:h-screen">
-      <div className="bg-[#151717] w-[480px] h-max pb-4 px-8">
+      <div className="bg-[#151717] w-[480px] h-full pb-4 px-8 overflow-auto">
         <div className="flex flex-col items-center">
-          <img className=" w-[480px] object-contain" src={"/name-logo.png"} />
+          <img className=" w-[480px] " src={"/name-logo.png"} />
           <div className="flex flex-col">
             <h1 className="text-white mt-3 font-bold text-center text-xl">
               AGRADECEMOS O SEU CONTATO!
