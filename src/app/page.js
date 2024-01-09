@@ -32,9 +32,12 @@ export default function Home() {
     value == "Outros" ? setOutros(true) : setOutros(false);
   };
 
+  const apiURL = process.env.API_BACKEND
+  
   const onSubmit = (data) => {
+    console.log(process.env.API_BACKEND)
     data.niche == "Outros"
-      ? axios.post("http://localhost:4555", {
+      ? axios.post(`${apiURL}`, {
           name: data.name,
           phone: data.phone,
           email: data.email,
@@ -42,7 +45,7 @@ export default function Home() {
           meet: data.meet,
           sendEmail: data.checkbox,
         })
-      : axios.post("http://localhost:4555", {
+      : axios.post(`${apiURL}`, {
           name: data.name,
           phone: data.phone,
           email: data.email,
@@ -55,7 +58,7 @@ export default function Home() {
   return (
     <main className="">
       <div className="flex items-center justify-center sm:h-screen">
-      <div className="bg-[#151717] w-[480px] h-full pb-4 px-8 overflow-auto">
+      <div className="bg-[#151717] w-[480px] h-screen pb-4 px-8 overflow-auto">
         <div className="flex flex-col items-center">
           <img className=" w-[480px] " src={"/name-logo.png"} />
           <div className="flex flex-col">
