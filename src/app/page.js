@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import {IMaskInput} from 'react-imask'
 import axios from "axios";
 
 export default function Home() {
@@ -82,7 +83,8 @@ export default function Home() {
               className="px-2 h-8 rounded text-black"
             />
             <label className="mt-4">Telefone*</label>
-            <input
+            <IMaskInput
+            mask={"(00) 00000-0000"}
               {...register("phone", { required: true })}
               placeholder="ex: (18) 99999-9999"
               className="px-2 h-8 rounded text-black"
