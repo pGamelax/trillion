@@ -43,6 +43,8 @@ export default function Home() {
           niche: data.outros,
           meet: data.meet,
           sendEmail: data.checkbox,
+        }).then((resp) => {
+          window.location.assign("https://docs.google.com/forms/d/e/1FAIpQLSeVxr8wUN_s69D7W6lu_WE4Wel6_5JvtmYva9QrRFrjDycK8A/viewform")
         })
       : axios.post(`${apiURL}`, {
           name: data.name,
@@ -52,7 +54,7 @@ export default function Home() {
           meet: data.meet,
           sendEmail: data.checkbox,
         }).then((resp) => {
-          console.log(resp)
+          window.location.assign('https://docs.google.com/forms/d/e/1FAIpQLSeVxr8wUN_s69D7W6lu_WE4Wel6_5JvtmYva9QrRFrjDycK8A/viewform')
         })
         
   };
